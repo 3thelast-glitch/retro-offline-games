@@ -1,0 +1,19 @@
+{
+  "name": "Retro Offline Games",
+  "short_name": "Retro Games",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#090f1d",
+  "theme_color": "#090f1d",
+  "lang": "ar",
+  "description": "Original and licensed offline-ready games",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

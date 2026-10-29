@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "games": [
+    {
+      "id": "sliding-puzzle",
+      "name": {
+        "ar": "لغز الأرقام",
+        "en": "Sliding Puzzle"
+      },
+      "engine": "native-react",
+      "offline": true,
+      "license": "Original demo created for this repository",
+      "redistributable": true,
+      "localization": [
+        "ar",
+        "en"
+      ],
+      "themes": [
+        "dark",
+        "light"
+      ],
+      "levels": "shuffle-generated"
+    }
+  ]
+}
