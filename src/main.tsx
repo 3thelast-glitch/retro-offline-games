@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Capacitor } from '@capacitor/core';
 import { createRoot } from 'react-dom/client';
 import { translations, type Lang } from './i18n';
 import { GAME_CATALOG } from './catalog/catalog';
@@ -45,7 +46,7 @@ function App() {
   }, [tiles, moves]);
   useEffect(() => {
     // Native packaging must use its own asset policy, not assume a browser service worker.
-    if ('serviceWorker' in navigator && !('Capacitor' in window)) {
+    if ('serviceWorker' in navigator && !Capacitor.isNativePlatform()) {
       navigator.serviceWorker.register('/sw.js').catch(() => {});
     }
   }, []);

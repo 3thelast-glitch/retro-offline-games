@@ -1,7 +1,7 @@
-# Build instructions and observed status
+# Build, CI and artifact evidence — 2026-10-30
 
-## Web project
-Node.js 22+ and npm, from repository root:
+## Web commands
+Requires Node 22+:
 
 ```bash
 npm install
@@ -10,12 +10,12 @@ npm run build
 npm run preview
 ```
 
-Existing GitHub Actions web CI has passed for the typed catalog/puzzle tests and Vite build: https://github.com/3thelast-glitch/retro-offline-games/actions/runs/41069035171.
+Verified in GitHub Actions: https://github.com/3thelast-glitch/retro-offline-games/actions/runs/41069512214 — passed. No committed npm lockfile yet; review/install and commit one before claiming reproducibility.
 
-A reviewed `package-lock.json` has not yet been generated and committed; `npm install` is still used rather than reproducible `npm ci`. Pin the lockfile in a network-enabled workspace.
+## Android foundation (without PSP)
+This repository includes Capacitor 8.0.0 configuration and app ID `com.retroofflinegames.app`. Android native project is generated at build time and `android/` remains ignored (not yet an integrated native source tree).
 
-## Capacitor Android foundation experimental CI
-The branch now contains `capacitor.config.ts` with app ID `com.retroofflinegames.app` and pinned `@capacitor/*` 8.0.0 dependencies. Workflow `.github/workflows/android-foundation.yml` attempts these build steps on GitHub-hosted Ubuntu:
+GitHub-hosted workflow ran:
 
 ```bash
 npm install
@@ -27,9 +27,11 @@ cd android
 ./gradlew :app:assembleDebug --stacktrace --no-daemon
 ```
 
-The Android project is generated on CI from the pinned Capacitor package and excluded from git, currently a **foundation-only experiment**. It will **not contain PSP emulation** even if APK build succeeds. The workflow verifies the debug APK exists and uploads it as `retro-offline-games-foundation-debug-no-psp`.
+CI success: https://github.com/3thelast-glitch/retro-offline-games/actions/runs/41069512225 (commit `b2922b2532ccac7e54e3320e695faf84d11db58d`). Artifact `retro-offline-games-foundation-debug-no-psp`, an **Android debug-signed foundation APK, not a PSP player and not release-signed**.
 
-Windows equivalent in a network-enabled Android SDK environment:
+Verified artifact SHA-256 in the working environment after download: `145d33090e04bd283d23154dced553c76830838148c59bc1c4dda9c36669c626`. APK contains packaged frontend JS, CSS and index.html. No installed-device execution proof exists.
+
+Equivalent PowerShell build after setting up an Android SDK:
 
 ```powershell
 npm install
@@ -41,7 +43,7 @@ cd android
 .\gradlew.bat :app:assembleDebug
 ```
 
-Do not call an APK build an install or first-launch offline test. For release engineering, commit the generated native project and lockfile after validating Gradle/SDK/NDK versions, then add native runtime and device testing.
+Do not call the script `android:debug` until an actual native project and wrapper are committed. PPSSPP C++ runtime and authorized PSP homebrew are not included.
 
-## Local environment findings
-Local execution shell: `git 2.47.3`, `node v22.16.0`, `npm 10.9.2`, `OpenJDK 21.0.12`. No local Android SDK, NDK, adb or usable network DNS (`git ls-remote` failed to resolve `github.com`). Android work depends on CI and subsequent device validation.
+## Local execution environment
+Git 2.47.3, Node 22.16.0, npm 10.9.2, JDK 21.0.12. Android SDK/NDK/adb unavailable, GitHub DNS failed in shell. Verification beyond CI needs a named physical arm64 Android device and exact installed artifact.

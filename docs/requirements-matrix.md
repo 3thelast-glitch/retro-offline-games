@@ -4,23 +4,23 @@ Statuses: **implemented and tested**, **implemented but untested**, **partial**,
 
 | Requirement | Implementation/evidence | Status | Remaining gate |
 |---|---|---|---|
-| M1 fresh repo/Issue #1 audit | `docs/repository-audit.md` | implemented and tested | Refresh after merge |
-| M1 native architecture evaluation | `docs/architecture/ADR-001-android-host.md` | partial | Actual native spike |
-| M1 PPSSPP source research | `docs/psp-integration.md` and candidate manifest | partial | Source checkout/compile/dependency audit |
-| M2 Capacitor package/config and APK CI attempt | `capacitor.config.ts`, Android foundation workflow | implemented but untested | Verify CI outcome and APK contents |
-| M2 real Android first-launch offline | No device test | blocked | Install APK offline and verify behavior |
-| M3 embedded PPSSPP JNI, rendering, audio | None | blocked | Compile native module + Activity |
-| M4 original/authorized PSP homebrew boot | No PSP homebrew bundled | not implemented | Rights, fixture, native launch |
-| M5 touch/gamepad/pause/native saves | None | not implemented | PSP runtime and device |
-| M5 original puzzle save validation | `src/persistence/puzzle.ts`, tests | implemented and tested | Real browser/localStorage smoke |
-| M6 Arabic/English web UI and theme | Existing UI, improved labels | partial | Native menus, QA/accessibility |
-| M6 one canonical catalog | `src/catalog/catalog.ts`, React grid | implemented and tested | Content manifest/import support |
-| M7 engine contracts and capability gating | `src/engines/types.ts`, `capabilities.ts` | partial | Real adapters/session coordinator |
-| M8 performance/16 KiB native compatibility | None | blocked | Native APK + device |
-| M9 frontend CI/tests | GitHub run 41069035171 passed | implemented and tested | Add security/native/QA suites |
-| M9 licensed signed PSP release | None | blocked | Runtime, QA, licenses/signing |
+| M1 repository/Issue #1 audit | `docs/repository-audit.md` | implemented and tested | Refresh after merge |
+| M1 proposed native architecture | `docs/architecture/ADR-001-android-host.md` | partial | Native compiled/launch spike |
+| M1 PPSSPP candidate source | `docs/psp-integration.md` and gitlinks manifest | partial | Clone/compile/integration |
+| M2 Capacitor config/Android foundation APK | Android workflow run 41069512225 | partial | Physical fresh install offline validation |
+| M2 same-APK real PSP game | No embedded engine | not implemented | M3 and M4 |
+| M3 embedded PPSSPP JNI, surface/audio | No native module | blocked | PPSSPP build + Android toolchain |
+| M4 licensed PSP homebrew and boot | None bundled | not implemented | Source, rights and real game boot |
+| M5 native touch/gamepad/pause/saves | No native player | not implemented | M4 + device |
+| M5 original puzzle persistence | `src/persistence/puzzle.ts`, CI tests | implemented and tested | Browser smoke/actual save round-trip |
+| M6 bilingual UI/RTL/light theme | Existing React app | partial | Full UX/native menus QA |
+| M6 single-source typed catalog | `src/catalog/catalog.ts`, unit tests | implemented and tested | Imports/metadata expansion |
+| M7 abstract engine contract and truthful capability | `src/engines/*.ts`, tests | partial | Native adapter/session lifecycle |
+| M8 16 KiB/performance/device compatibility | No native engine/device | blocked | Real ARM64 device testing |
+| M9 web/unit + Android foundation CI | CI runs 41069512214 and 41069512225 | implemented and tested | APK install/instrumented tests |
+| M9 licensed/production-signed PSP release | None | blocked | M3–M8 + legal/signing |
 | M10 Windows/Web PSP/iOS | `docs/compatibility.md` research | partial | Separate platform spikes |
-| No NAQLA dependency | Separate repository, independent app ID | partial | Validate generated APK |
-| Import/mods/license notice gate | Documentation only | partial | Implementation and per-game rights |
+| No NAQLA dependence | Separate repo and chosen Android ID | partial | Inspect installed package |
+| Licensing/customization/import | `docs/licensing.md` and `docs/game-customization.md` | partial | Rights matrix and import implementation |
 
-A green frontend CI run does not prove Android installation, PSP gameplay, graphics, audio, input or saves.
+A green Android Gradle build is *not* a PSP integration or gameplay result. This matrix distinguishes native foundation from real emulation.
