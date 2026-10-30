@@ -10,14 +10,14 @@ export const translations = {
     won: 'فزت! أحسنت',
     moves: 'الحركات',
     instructions: 'رتّب الأرقام من 1 إلى 15 لإكمال اللغز.',
-    offline: 'تعمل دون إنترنت بعد تحميل ملفات التطبيق لأول مرة',
-    gameTitle: 'لغز الأرقام',
-    gameDescription: 'لعبة تجريبية أصلية مدمجة',
-    legal: 'النسخة التأسيسية: لا تتضمن ألعابًا تجارية أو ملفات من Lemon Web',
+    offline: 'يمكن تشغيل لعبة اللغز دون إنترنت بعد تخزين ملفات الموقع. إصدار Android قيد التطوير.',
+    legal: 'لا تتضمن النسخة الحالية ملفات ألعاب تجارية أو ألعاب PSP.',
     language: 'English',
     theme: 'المظهر',
     dark: 'ليلي',
-    light: 'فاتح'
+    light: 'فاتح',
+    emptyTile: 'خانة فارغة',
+    saving: 'يُحفظ تقدم اللغز على هذا الجهاز عند توفر التخزين المحلي.'
   },
   en: {
     brand: 'Game Library',
@@ -29,13 +29,13 @@ export const translations = {
     won: 'You won! Well done',
     moves: 'Moves',
     instructions: 'Arrange tiles from 1 to 15 to solve the puzzle.',
-    offline: 'Works offline after the application files are cached once',
-    gameTitle: 'Sliding Puzzle',
-    gameDescription: 'Original bundled demo game',
-    legal: 'Starter release: no commercial games or Lemon Web files included',
+    offline: 'The puzzle can work offline after site assets are cached. Android development is pending.',
+    legal: 'The current version includes no commercial game files or PSP games.',
     language: 'العربية',
     theme: 'Theme',
     dark: 'Dark',
-    light: 'Light'
+    light: 'Light',
+    emptyTile: 'Empty tile',
+    saving: 'Puzzle progress is stored on this device when local storage is available.'
   }
 } as const;
