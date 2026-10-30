@@ -1,54 +1,46 @@
 # Retro Offline Games
 
-Independent bilingual (Arabic / English) offline-ready game library.
+Independent offline-ready bilingual game library, separate from NAQLA.
 
-This starter includes **an original sliding-puzzle game** as an executable demo. It does **not** include game ROMs, SWFs, proprietary assets, or games copied from Lemon Web.
+## Actual status (2026-10-30)
+- Web app: React/TypeScript/Vite, Arabic and English, original sliding-number puzzle, theme and locally validated puzzle progress.
+- Browser offline: service-worker caching after successful initial loading (not guaranteed on first web visit).
+- Android: **foundation-only debug APK built successfully on GitHub Actions**, containing the web interface and original puzzle. Build success is not on-device installation/gameplay proof.
+- **PSP emulation is NOT integrated.** There are no PSP ROMs, PPSSPP binaries, authorized bundled PSP game, JNI player, PSP saves or PSP-ready APK in the repository.
+- A candidate PPSSPP v1.20.4 source revision and Android source entry points have been researched, but not compiled or embedded.
 
-## Local development
-
-Requirements: Node.js 20.19+ or 22.12+ (Node 24 supported).
+## Build the web app
+Use Node 22+ and npm:
 
 ```bash
 npm install
+npm test
+npm run build
 npm run dev
 ```
 
-Production web build:
+## Android foundation (no PSP)
+Capacitor 8 dependencies and configuration are in this repository; app ID is `com.retroofflinegames.app`. With a compatible installed Android SDK:
 
 ```bash
-npm run build
-npm run preview
-```
-
-## Offline behavior
-
-The service worker caches the web application on first successful online use. It will not guarantee first-run offline access for a web user. For guaranteed installation-time offline access, package the built assets in an Android application with Capacitor.
-
-## Android roadmap
-
-```bash
-npm install @capacitor/core @capacitor/cli @capacitor/android
-npx cap init "Retro Offline Games" "com.example.retroofflinegames" --web-dir dist
+npm install
 npm run build
 npx cap add android
 npx cap sync android
-npx cap open android
+cd android
+./gradlew :app:assembleDebug
 ```
 
-Build with Android Studio, and choose your own Android application ID before publication.
+For Windows PowerShell, use `.\gradlew.bat :app:assembleDebug`. The generated `android/` folder is currently ignored and must be committed after native integration design/toolchain is validated.
 
-## Planned enhancements
+GitHub Actions: `.github/workflows/android-foundation.yml` generates a **debug-signed foundation APK**, published under the run's Artifacts section with the explicit name `retro-offline-games-foundation-debug-no-psp`. This is **not** a production signed release. A physical first-launch offline install test is outstanding.
 
-- Pluggable original or licensed games with documented redistribution permissions
-- Arabic translations and RTL, with language packs per game
-- Per-game themes, assets, levels, and progression where supported by the game source
-- Catalog filters, search, gamepad/touch input, local save data
-- Android APK builds and offline automated tests
+See [PR #2](https://github.com/3thelast-glitch/retro-offline-games/pull/2) and [Issue #1](https://github.com/3thelast-glitch/retro-offline-games/issues/1).
 
-## Legal and redistribution
+## Roadmap and architecture
+- [Audit](docs/repository-audit.md), [requirements matrix](docs/requirements-matrix.md), [Android host decision](docs/architecture/ADR-001-android-host.md)
+- [PPSSPP research](docs/psp-integration.md), [build evidence](docs/build.md), [QA](docs/qa-report.md)
+- [Saves](docs/storage-and-saves.md), [customization](docs/game-customization.md), [licensing](docs/licensing.md), [release checklist](docs/release-checklist.md)
 
-Being playable on a website does not grant permission to copy or redistribute the game's files. Assess each game's source and licenses separately, including translation/modification permissions and bundled asset rights.
-
-## Status
-
-Initial working UI and a single original demonstration puzzle, **not** yet an APK or an archive of Lemon Web games.
+## Game rights
+The app includes no proprietary ROM/ISO, game files taken from Lemon Web, firmware, or external emulator APK. Every future game requires independent rights/provenance review. A playable web page does not by itself authorize redistribution. PPSSPP itself is GPL-2.0-or-later, and distributing an integrated version requires a corresponding-source and license review.
