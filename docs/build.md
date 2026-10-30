@@ -1,7 +1,7 @@
 # Build instructions and observed status
 
-## Existing web-only project
-Node 22 (Node 22.16 or newer for `--experimental-strip-types` test runner), npm. Commands available in this branch:
+## Web project
+Node.js 22+ and npm, from repository root:
 
 ```bash
 npm install
@@ -10,21 +10,38 @@ npm run build
 npm run preview
 ```
 
-Windows PowerShell from repository directory uses the same `npm` commands.
+Existing GitHub Actions web CI has passed for the typed catalog/puzzle tests and Vite build: https://github.com/3thelast-glitch/retro-offline-games/actions/runs/41069035171.
 
-No dependency lockfile has been generated in a clean network-enabled dependency installation yet. Current CI still uses `npm install` and is not reproducible to the standard required for release. Commit the reviewed lockfile, then migrate to `npm ci`.
+A reviewed `package-lock.json` has not yet been generated and committed; `npm install` is still used rather than reproducible `npm ci`. Pin the lockfile in a network-enabled workspace.
 
-## Native Android
-**Not configured / not buildable in this increment.** There is currently no `android/` project, Gradle wrapper, Capacitor dependency, APK script, SDK/NDK pin, PPSSPP native code or bundled legal PSP content.
+## Capacitor Android foundation experimental CI
+The branch now contains `capacitor.config.ts` with app ID `com.retroofflinegames.app` and pinned `@capacitor/*` 8.0.0 dependencies. Workflow `.github/workflows/android-foundation.yml` attempts these build steps on GitHub-hosted Ubuntu:
 
-Do not run commands invented for nonexistent Gradle tasks. Intended next gated setup:
-- Confirm Capacitor + Android SDK/NDK/JDK toolchain compatibility.
-- Set Android app ID `com.retroofflinegames.app`; package offline assets with no remote server.
-- Create native host and PPSSPP integration after compiling pinned upstream.
-- Add reliable `android:debug` wrapper only when `gradlew tasks` reveals actual task names.
-- Inspect generated APK ABI, assets, signature and 16 KiB compatibility; install/test on device.
+```bash
+npm install
+npm test
+npm run build
+npx cap add android
+npx cap sync android
+cd android
+./gradlew :app:assembleDebug --stacktrace --no-daemon
+```
 
-## Executed environment diagnostics
-`git --version` => 2.47.3; `node --version` => v22.16.0; `npm --version` => 10.9.2; `java -version` => OpenJDK 21.0.12. `git ls-remote` failed DNS for github.com in container. Local SDK/NDK/adb/Gradle missing.
+The Android project is generated on CI from the pinned Capacitor package and excluded from git, currently a **foundation-only experiment**. It will **not contain PSP emulation** even if APK build succeeds. The workflow verifies the debug APK exists and uploads it as `retro-offline-games-foundation-debug-no-psp`.
 
-Prior **baseline web workflow** success: https://github.com/3thelast-glitch/retro-offline-games/actions/runs/40941130178. New branch CI must be assessed separately. No Android artifacts exist.
+Windows equivalent in a network-enabled Android SDK environment:
+
+```powershell
+npm install
+npm test
+npm run build
+npx cap add android
+npx cap sync android
+cd android
+.\gradlew.bat :app:assembleDebug
+```
+
+Do not call an APK build an install or first-launch offline test. For release engineering, commit the generated native project and lockfile after validating Gradle/SDK/NDK versions, then add native runtime and device testing.
+
+## Local environment findings
+Local execution shell: `git 2.47.3`, `node v22.16.0`, `npm 10.9.2`, `OpenJDK 21.0.12`. No local Android SDK, NDK, adb or usable network DNS (`git ls-remote` failed to resolve `github.com`). Android work depends on CI and subsequent device validation.
